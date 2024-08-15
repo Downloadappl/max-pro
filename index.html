@@ -1,100 +1,243 @@
-٩<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ماكس برو</title>
+    <title>تطبيق موفي تايم</title>
     <style>
         body {
-            background-color: black;
-            color: white;
             font-family: Arial, sans-serif;
-            text-align: center;
-            direction: rtl;
             margin: 0;
             padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+            transition: background-color 0.3s, color 0.3s;
         }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
+        .dark-mode {
+            background-color: #ffffff;
+            color: #121212;
+        }
+        header {
+            background-color: #1f1f1f;
             padding: 20px;
-            background-color: #222;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        img {
-            width: 100px;
-            margin: 20px auto;
-        }
-
-        h1 {
-            font-size: 24px;
-        }
-
-        .version {
-            font-size: 16px;
-            color: #aaa;
-        }
-
-        .description {
-            margin: 20px 0;
-            font-size: 18px;
-        }
-
-        .download-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            background-color: #FF3E3E;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             transition: background-color 0.3s;
         }
-
-        .download-btn:hover {
-            background-color: #FF5E5E;
+        .dark-mode header {
+            background-color: #f0f0f0;
         }
-
-        .footer {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #888;
+        .logo {
+            width: 30px;
+            filter: invert(100%);
+            transition: transform 0.3s ease;
         }
-
-        .footer a {
-            color: #aaa;
+        .dark-mode .logo {
+            filter: invert(0%);
+        }
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        .menu-icon, .theme-icon, .close-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffffff;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .dark-mode .menu-icon, .dark-mode .theme-icon, .dark-mode .close-icon {
+            color: #121212;
+        }
+        .menu-icon:hover, .theme-icon:hover, .close-icon:hover {
+            transform: scale(1.1);
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            background-color: #2c3e50;
+            padding-top: 20px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+        .dark-mode .sidebar {
+            background-color: #f0f0f0;
+        }
+        .sidebar.show {
+            left: 0;
+        }
+        .sidebar a {
+            padding: 15px 25px;
             text-decoration: none;
-        }
-
-        .footer a:hover {
+            font-size: 18px;
             color: white;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+        .dark-mode .sidebar a {
+            color: #121212;
+        }
+        .sidebar a i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .container {
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            text-align: center;
+        }
+        .hero {
+            background-color: #2d2d2d;
+            padding: 50px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+            z-index: 0;
+        }
+        .dark-mode .hero {
+            background-color: #e0e0e0;
+            color: #121212;
+        }
+        .hero .logo-large {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            filter: invert(100%);
+            transition: transform 0.3s ease;
+        }
+        .dark-mode .hero .logo-large {
+            filter: invert(0%);
+        }
+        .hero .logo-large:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+        .section {
+            background-color: #1f1f1f;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode .section {
+            background-color: #f7f7f7;
+            color: #121212;
+        }
+        .download-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .download-buttons a {
+            background-color: #638;
+            color: white;
+            padding: 15px 25px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+        .dark-mode .download-buttons a {
+            background-color: #638;
+            color: #ffffff;
+        }
+        .download-buttons a:hover {
+            transform: scale(1.05);
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #2c3e50;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+            display: none;
+        }
+        .dark-mode .progress-bar {
+            background-color: #f0f0f0;
+        }
+        .progress-bar-inner {
+            width: 0;
+            height: 20px;
+            background-color: #3498db;
+            transition: width 2s;
+        }
+        .dark-mode .progress-bar-inner {
+            background-color: #2980b9;
         }
     </style>
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("show");
+        }
+
+        function simulateDownload() {
+            var progressBar = document.getElementById("progress-bar");
+            var progressBarInner = document.getElementById("progress-bar-inner");
+
+            progressBar.style.display = "block";
+            progressBarInner.style.width = "0";
+
+            setTimeout(function() {
+                progressBarInner.style.width = "100%";
+                setTimeout(function() {
+                    alert("تم تحميل التطبيق بنجاح!");
+                    progressBar.style.display = "none";
+                }, 2000);
+            }, 100);
+        }
+    </script>
 </head>
 <body>
+    <header>
+        <span class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
+        <img src="https://f.top4top.io/p_3149padyg1.png" alt="شعار أشور" class="logo">
+        <span class="theme-icon" onclick="toggleDarkMode()">&#9790;</span>
+    </header>
 
-<div class="container">
-    <img src="https://h.top4top.io/p_3148khjmt3.png" alt="App Icon">
-    <h1>MAX PRO</h1>
-    <p class="version">الإصدار 1.0 الاول</p>
-    <p class="description">نقدم لك تطبيق ماكس برو تطبيق يحتوي على احدث الافلام والمسلسلات والقنوات الرياضية وغيرها مجانا.</p>
-    <a href="https://mrkzgulfup.com/uploads/172372166743897.apk" class="download-btn">تحميل التطبيق</a>
-    <a href="https://play.google.com/store/apps/details?id=com.akoplayer.pro" class="download-btn">تحميل المشغل</a>
-</div>
+    <div id="sidebar" class="sidebar">
+        <span class="close-icon" onclick="toggleSidebar()">&#10006;</span>
+        <a href="#" onclick="toggleDarkMode()"><i class="theme-icon">&#9790;</i> تبديل الوضع</a>
+    </div>
 
-<div class="footer">
-    <p>اتصل بنا : <a href="hmwshy402@gmail.com">hmwshy402@gmail.com</a></p>
-    <p><a href="#">فريق ماكس برو</a></p>
-</div>
+    <div class="container">
+        <div class="hero">
+    <h2>أضف المتعة إلى يومك مع Movie Time</h2>
+    <p>تابع أفلامك ومسلسلاتك المفضلة في أي وقت ومن أي مكان Movie Time هو وجهتك  المثالية للاستمتاع بمحتوى ترفيهي متجدد</p>
+.</div>
 
+        <div class="section">
+            <h3>تحميل التطبيق</h3>
+            <div class="download-buttons">
+<a href="https://mrkzgulfup.com/uploads/172374349555513.apk" onclick="simulateDownload()">تحميل التطبيق</a>               
+                <a href="https://mrkzgulfup.com/uploads/172374527345413.apk" onclick="simulateDownload()">تحميل المشغل</a>
+                
+                
+            </div>
+            <div id="progress-bar" class="progress-bar">
+                <div id="progress-bar-inner" class="progress-bar-inner"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>ميزات التطبيق</h3>
+            <p>  <p>
+        <strong>.مكتبة ضخمة من الأفلام والمسلسلات</strong>
+        <br><br> <!-- إضافة مسافة بين الميزات -->
+        <strong>.جدول المباريات الرياضية</strong>
+        <br><br> <!-- إضافة مسافة بين الميزات -->
+        <strong>.مجموعة كبيرة من القنوات التلفزيونية</strong>
+    </p></p>
+        </div>
+    </div>
 </body>
 </html>
